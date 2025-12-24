@@ -1,0 +1,52 @@
+{{/* Micro.blog Map Logic
+    Repo: https://github.com/vladcampos/microblog-map
+*/}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mapElement = document.getElementById('categoryMap');
+    
+    // This is the only "check" - it looks for the div on the current page
+    if (!mapElement) return;
+
+    // 1. Pull data from data/cities.yml
+    const pins = {{ site.Data.cities | jsonify | safeJS }};
+    
+    // 2. Map Configuration
+    const DEFAULT_CENTER = [20.0, 0.0]; 
+    const DEFAULT_ZOOM = 2; 
+
+    // 3. Initialize Map
+    var map = L.map('categoryMap').setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+
+    // 4. Add Tiles (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap',
+        maxZoom: 18,
+    }).addTo(map);
+
+    // 5. Add Markers
+    if (pins && pins.length > 0) {
+        var markerGroup = L.featureGroup().addTo(map);
+
+        pins.forEach(pin => {
+            if (pin.lat && pin.lon) {
+                var marker = L.marker([pin.lat, pin.lon]);
+                
+                // Customize the popup appearance here
+                const popupContent = `
+                    <div style="font-family: sans-serif; padding: 5px;">
+                        <h3 style="margin: 0; font-size: 16px;">${pin.name}</h3>
+                        <a href="${pin.url}" style="font-size: 14px; color: #007bff;">View Posts</a>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent);
+                markerGroup.addLayer(marker);
+            }
+        });
+        
+        // Automatically zoom to fit all markers
+        map.fitBounds(markerGroup.getBounds(), { padding: [40, 40] });
+    }
+});
+</script>
