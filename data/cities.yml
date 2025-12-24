@@ -1,0 +1,11 @@
+- name: "Boston, USA"
+  slug: "boston"
+  lat: 42.3601
+  lon: -71.0589
+  url: "/categories/boston"
+
+- name: "Porto, Portugal"
+  slug: "porto"
+  lat: 41.1579
+  lon: -8.6291
+  url: "/categories/porto"
