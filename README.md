@@ -65,7 +65,12 @@ Add the following line to your footer to load the map logic:
     
 
 ```
-{{ partial "microblog-map.html" . }}
+{{/* Safety check: Only call the partial if Hugo can find the file.
+  This prevents "partial not found" errors from breaking the site build.
+*/}}
+{{ if templates.Exists "partials/microblog-map.html" }}
+    {{ partial "microblog-map.html" . }}
+{{ end }}
 
 ```
 
