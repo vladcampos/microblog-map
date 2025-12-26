@@ -40,7 +40,16 @@ Create a file in your Micro.blog design area at `data/cities.yml` and add your l
 
 Create a new template at `layouts/partials/microblog-map.html` and paste the code provided in this repository.
 
-### 3. Load the Assets (Head)
+
+### 3. Create the Shortcode
+
+To make embedding easier, create a file at `layouts/shortcodes/map.html`:
+
+```
+<div id="categoryMap" style="width: 100%; height: 500px; border-radius: 12px; margin: 30px 0;"></div>
+```
+
+### 4. Load the Assets (Head)
 
 You need to load the Leaflet CSS and JavaScript.
 
@@ -55,7 +64,7 @@ You need to load the Leaflet CSS and JavaScript.
 
 ```
 
-### 4. Include the Script (Footer)
+### 5. Include the Script (Footer)
 
 Add the following line to your footer to load the map logic:
 
@@ -66,22 +75,17 @@ Add the following line to your footer to load the map logic:
 
 ```
 {{/* Safety check: Only call the partial if Hugo can find the file.
-  This prevents "partial not found" errors from breaking the site build.
-*/}}
+     This allows you to use the {{< map >}} shortcode in any post. */}}
 {{ if templates.Exists "partials/microblog-map.html" }}
     {{ partial "microblog-map.html" . }}
 {{ end }}
-
 ```
 
-### 5. Display the Map
+### 6. Display the Map
 
-Place the following HTML on any page, post, or template where you want the map to appear:
+Simply add the following shortcode to any post or page: `{{< map >}}`
 
-```
-<div id="categoryMap" style="width: 100%; height: 400px; border-radius: 12px;"></div>
-
-```
+Alternatively, you can still use the manual HTML div with the ID categoryMap if preferred.
 
 ## How it Works
 
